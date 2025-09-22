@@ -52,7 +52,7 @@ public class UsuarioDAO {
         }
     }
 
-    public void listarUsuarioPorID(int id) {
+    public static boolean listarUsuarioPorID(int id) {
         String sql = "SELECT * FROM usuarios WHERE id = ?";
 
         try (Connection conexao = ConexaoBD.conectarBD();
@@ -63,6 +63,7 @@ public class UsuarioDAO {
                 if (rs.next()) {
                     System.out.println("Usuário encontrado:");
                     System.out.printf("ID: %d | Nome: %s | E-mail: %s \n", rs.getInt("id"), rs.getString("nome"), rs.getString("email"));
+                    return true;
                 } else {
                     System.out.println("Usuário não encontrado!");
                 }
@@ -71,6 +72,7 @@ public class UsuarioDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public void atualizarUsuario() {
@@ -78,29 +80,32 @@ public class UsuarioDAO {
         int id = sc.nextInt(); sc.nextLine(); // usuario inserir o id
         System.out.println("------------------------------");
 
-        listarUsuarioPorID(id); // listar usuário pelo ID
+        boolean encontrado = listarUsuarioPorID(id); // listar usuário pelo ID
         System.out.println("------------------------------");
 
-        String coluna = Menu.atualizarUsuario(); // menu de atualização do usuário
+        if (encontrado) {
+            String coluna = Menu.atualizarUsuario(); // menu de atualização do usuário
 
-        String novoValor = sc.nextLine(); // usuário inserir o novo valor para o campo
-        System.out.println("------------------------------");
-
-        String sql = "UPDATE usuarios SET " + coluna + " = ? WHERE id = ?";
-
-        try (Connection conexao = ConexaoBD.conectarBD();
-             PreparedStatement ps = conexao.prepareStatement(sql)) {
-
-            ps.setString(1, novoValor);
-            ps.setInt(2, id);
-            ps.executeUpdate();
-
-            System.out.println("Atualização bem-sucedida!");
+            String novoValor = sc.nextLine(); // usuário inserir o novo valor para o campo
             System.out.println("------------------------------");
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+            String sql = "UPDATE usuarios SET " + coluna + " = ? WHERE id = ?";
+
+            try (Connection conexao = ConexaoBD.conectarBD();
+                 PreparedStatement ps = conexao.prepareStatement(sql)) {
+
+                ps.setString(1, novoValor);
+                ps.setInt(2, id);
+                ps.executeUpdate();
+
+                System.out.println("Atualização bem-sucedida!");
+                System.out.println("------------------------------");
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     public void deletarUsuario() {
@@ -119,11 +124,13 @@ public class UsuarioDAO {
 
             try (Connection conexao = ConexaoBD.conectarBD();
                  PreparedStatement ps = conexao.prepareStatement(sql)) {
+
                 ps.setInt(1, id);
+                ps.executeUpdate();
 
-                try (ResultSet rs = ps.executeQuery()) {
+                System.out.println("Exclusão bem-sucedida!");
+                System.out.println("------------------------------");
 
-                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
