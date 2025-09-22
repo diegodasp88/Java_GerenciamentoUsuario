@@ -6,7 +6,7 @@ Projeto de estudo desenvolvido em **Java**, utilizando **Maven** para gerenciame
 
 ## Tecnologias Utilizadas
 
-- Java 17+  
+- Java 24  
 - Maven  
 - MySQL  
 - JDBC (para conexão com o banco de dados)  
