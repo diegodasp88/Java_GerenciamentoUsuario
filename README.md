@@ -57,7 +57,6 @@ O projeto segue uma organização modular com Maven, contendo pacotes como:
 3. Compile e execute a aplicação usando Maven:
 
 ```bash
-Copiar código
 mvn clean compile exec:java
 ```
 
