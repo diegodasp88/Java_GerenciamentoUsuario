@@ -39,10 +39,10 @@ O sistema está preparado para permitir expansão futura, caso novos tipos de us
 
 O projeto segue uma organização modular com Maven, contendo pacotes como:
 
-- `model` — classes de entidades (usuário, cliente, admin)  
-- `dao` — classes responsáveis pelas operações CRUD  
-- `service` — lógica de negócio  
-- `utils` — utilitários e conexões com o banco de dados  
+- `app` — contém a classe principal (com main) 
+- `model` — contém classes de entidades (usuário, cliente, admin)  
+- `dao` — contém classes responsáveis pelas operações CRUD  
+- `view` — contém a parte de interação (menus, prints, interface de console) 
 
 ---
 
